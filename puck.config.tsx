@@ -8,6 +8,7 @@ type Props = {
     description: string;
     padding: number;
     variant: string;
+    bgColor: string;
   };
 };
 
@@ -51,15 +52,25 @@ export const config: Config<Props> = {
             { label: "Floating", value: "shadow-md" },
           ],
         },
+        bgColor: {
+          type: "select",
+          options: [
+            { label: "Inherit", value: "inherit" },
+            { label: "Red", value: "red-300" },
+            { label: "Yellow", value: "yellow-100" },
+          ],
+        },
       },
+
       defaultProps: {
         title: "Card",
         description: "Description",
         padding: 16,
         variant: "border rounded-md",
+        bgColor: "inherit",
       },
-      render: ({ title, description, padding, variant }) => (
-        <div style={{ padding }} className={`${variant}`}>
+      render: ({ title, description, padding, variant, bgColor }) => (
+        <div style={{ padding }} className={`${variant} bg-${bgColor}`}>
           <h2>{title}</h2>
           <p>{description}</p>
         </div>
