@@ -47,7 +47,7 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
     },
   },
   resolveFields: (data, { fields }) => {
-    const { backgroundType } = data.props || {};
+    const { backgroundType = "image" } = data.props || {};
 
     return {
       ...fields,
