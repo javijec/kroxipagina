@@ -80,4 +80,13 @@ export type Props = {
     videoUrl: string;
     title: string;
   };
+  FooterBlock: {
+    text: string;
+    textColor: string;
+    backgroundColor: string;
+    socialLinks: {
+      icon: string;
+      href: string;
+    }[];
+  };
 };

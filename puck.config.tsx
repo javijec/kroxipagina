@@ -11,9 +11,11 @@ import { TextBlock } from "./components/Blocks/TextBlock";
 import { DividerBlock } from "./components/Blocks/DividerBlock";
 import { NavbarBlock } from "./components/Blocks/NavbarBlock";
 import { YouTubeBlock } from "./components/Blocks/YouTubeBlock";
+import { FooterBlock } from "./components/Blocks/FooterBlock";
 
 export const config: Config<Props> = {
   components: {
+    FooterBlock,
     YouTubeBlock,
     NavbarBlock,
     GridBlock,
