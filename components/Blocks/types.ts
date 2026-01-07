@@ -31,6 +31,8 @@ export type Props = {
   SectionBlock: {
     title: string;
     subtitle: string;
+    backgroundType: "image" | "color";
+    backgroundImage?: string;
     backgroundColor: string;
     padding: "none" | "small" | "medium" | "large";
     contentWidth: "narrow" | "medium" | "wide" | "full";

@@ -5,6 +5,18 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
   fields: {
     title: { type: "text", label: "Section Title", contentEditable: true },
     subtitle: { type: "textarea", label: "Section Subtitle", contentEditable: true },
+    backgroundType: {
+      type: "radio",
+      label: "Background Type",
+      options: [
+        { label: "Color", value: "color" },
+        { label: "Image", value: "image" },
+      ],
+    },
+    backgroundImage: {
+      type: "text",
+      label: "Background Image URL",
+    },
     backgroundColor: {
       type: "select",
       label: "Background Color",
@@ -13,6 +25,7 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
         { label: "Gray 50", value: "bg-gray-50" },
         { label: "Gray 100", value: "bg-gray-100" },
         { label: "Blue 50", value: "bg-blue-50" },
+        { label: "Dark", value: "bg-gray-900" },
       ],
     },
     padding: {
@@ -39,11 +52,28 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
   defaultProps: {
     title: "Section Title",
     subtitle: "",
+    backgroundType: "color",
+    backgroundImage: "",
     backgroundColor: "bg-white",
     padding: "medium",
     contentWidth: "wide",
   },
-  render: ({ title, subtitle, backgroundColor, padding, contentWidth }) => {
+  resolveFields: (data, { fields }) => {
+    const { backgroundType = "color" } = data.props || {};
+
+    return {
+      ...fields,
+      backgroundColor: {
+        ...fields.backgroundColor,
+        visible: backgroundType === "color",
+      },
+      backgroundImage: {
+        ...fields.backgroundImage,
+        visible: backgroundType === "image",
+      },
+    } as any;
+  },
+  render: ({ title, subtitle, backgroundType, backgroundImage, backgroundColor, padding, contentWidth }) => {
     const paddingOptions: Record<string, string> = {
       none: "py-0",
       small: "py-8",
@@ -57,13 +87,30 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
       full: "max-w-full",
     };
 
+    const isImage = backgroundType === "image";
+    const bgStyle = isImage && backgroundImage
+      ? {
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }
+      : {};
+
+    const bgClass = !isImage ? backgroundColor : "relative";
+    // For image backgrounds, we might want a default text color or overlay, but sticking to basics for now as requested.
+    // Adding 'relative' to ensure z-index works if we added an overlay later.
+
     return (
-      <section className={`${backgroundColor} ${paddingOptions[padding]}`}>
+      <section
+        className={`${bgClass} ${paddingOptions[padding]}`}
+        style={bgStyle}
+      >
         <div className={`mx-auto px-4 ${widthOptions[contentWidth]}`}>
           {(title || subtitle) && (
-            <div className="text-center mb-12">
+            <div className={`text-center mb-12 ${isImage ? "text-white drop-shadow-md" : ""}`}>
+              {/* Added text-white shadow for readability on images */}
               {title && <h2 className="text-3xl font-bold mb-4">{title}</h2>}
-              {subtitle && <p className="text-lg text-gray-600">{subtitle}</p>}
+              {subtitle && <p className={`text-lg ${isImage ? "text-gray-100" : "text-gray-600"}`}>{subtitle}</p>}
             </div>
           )}
           <DropZone zone="section-content" />
