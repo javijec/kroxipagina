@@ -58,7 +58,10 @@ export type Props = {
   };
   TextBlock: {
     content: string;
+    colorMode?: "preset" | "custom";
     textColor: string;
+    customColor?: string;
+    fontFamily?: "sans" | "serif" | "mono";
     fontSize: "small" | "medium" | "large";
     lineHeight: "tight" | "normal" | "relaxed";
   };
