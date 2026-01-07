@@ -13,7 +13,10 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
         { label: "Color", value: "color" },
       ],
     },
-    backgroundImage: { type: "text", label: "Background Image URL" },
+    backgroundImage: {
+      type: "text",
+      label: "Background Image URL",
+    },
     backgroundColor: {
       type: "select",
       label: "Background Color",
@@ -42,6 +45,25 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
       min: 0,
       max: 100,
     },
+  },
+  resolveFields: (data, { fields }) => {
+    const { backgroundType } = data.props || {};
+
+    return {
+      ...fields,
+      backgroundImage: {
+        ...fields.backgroundImage,
+        visible: backgroundType === "image",
+      },
+      overlayOpacity: {
+        ...fields.overlayOpacity,
+        visible: backgroundType === "image",
+      },
+      backgroundColor: {
+        ...fields.backgroundColor,
+        visible: backgroundType === "color",
+      },
+    } as any;
   },
   defaultProps: {
     title: "Welcome to Our Site",

@@ -27,9 +27,6 @@ export type Props = {
     backgroundColor: string;
     height: "small" | "medium" | "large" | "fullscreen";
     overlayOpacity: number;
-    buttonText: string;
-    buttonLink: string;
-    buttonVariant: "primary" | "secondary" | "outline";
   };
   SectionBlock: {
     title: string;
