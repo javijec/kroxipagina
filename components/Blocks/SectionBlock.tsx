@@ -53,7 +53,7 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
     title: "Section Title",
     subtitle: "",
     backgroundType: "color",
-    backgroundImage: "",
+    backgroundImage: "https://lh3.googleusercontent.com/sitesv/AAzXCkeShCYMo0yFIVwwcU9ghVLkUYjxG54zKTA-hWQsQP6WWnapVgSUGgaFj4iZSXDrvH15lAHhZEaoNyjuZMN6IVfisUFGXGrCGd3Z9nF8Px_I1MSx0ujXzELAwlUyjkGspMgvxa9WLXawL3ZCHb4fGTH7dhyUxg_zfiI9fPxjkScW-xe4WJ4zZGJ0ntk=w16383",
     backgroundColor: "bg-white",
     padding: "medium",
     contentWidth: "wide",
