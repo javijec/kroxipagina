@@ -1,22 +1,19 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import fs from "fs";
+import clientPromise from "../../../lib/mongodb";
 
 export async function POST(request: Request) {
   const payload = await request.json();
 
-  const existingData = JSON.parse(
-    fs.existsSync("database.json")
-      ? fs.readFileSync("database.json", "utf-8")
-      : "{}"
+  const client = await clientPromise;
+  const db = client.db();
+  const collection = db.collection("pages");
+
+  await collection.updateOne(
+    { path: payload.path },
+    { $set: { data: payload.data } },
+    { upsert: true }
   );
-
-  const updatedData = {
-    ...existingData,
-    [payload.path]: payload.data,
-  };
-
-  fs.writeFileSync("database.json", JSON.stringify(updatedData));
 
   // Purge Next.js cache
   revalidatePath(payload.path);

@@ -3,8 +3,8 @@ import { Props } from "./types";
 
 export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
   fields: {
-    title: { type: "text", label: "Hero Title" },
-    subtitle: { type: "textarea", label: "Hero Subtitle" },
+    title: { type: "text", label: "Hero Title", contentEditable: true },
+    subtitle: { type: "textarea", label: "Hero Subtitle", contentEditable: true },
     backgroundType: {
       type: "radio",
       label: "Background Type",
@@ -94,16 +94,15 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
 
     return (
       <div
-        className={`relative ${heightClass} flex items-center justify-center overflow-hidden ${
-          !isImage ? backgroundColor : ""
-        }`}
+        className={`relative ${heightClass} flex items-center justify-center overflow-hidden ${!isImage ? backgroundColor : ""
+          }`}
         style={
           isImage && backgroundImage
             ? {
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
             : {}
         }
       >
