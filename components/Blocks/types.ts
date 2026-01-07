@@ -74,4 +74,8 @@ export type Props = {
     textColor: string;
     fixed: "true" | "false";
   };
+  YouTubeBlock: {
+    videoUrl: string;
+    title: string;
+  };
 };
