@@ -3,7 +3,7 @@ import { Props } from "./types";
 
 export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
   fields: {
-    content: { type: "textarea", label: "Text Content" },
+    content: { type: "textarea", label: "Text Content", contentEditable: true },
     textColor: {
       type: "select",
       label: "Text Color",

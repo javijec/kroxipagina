@@ -4,8 +4,8 @@ import { shadowOptions, borderRadiusOptions } from "./options";
 
 export const CardBlock: ComponentConfig<Props["CardBlock"]> = {
   fields: {
-    title: { type: "text", label: "Card Title" },
-    description: { type: "textarea", label: "Card Description" },
+    title: { type: "text", label: "Card Title", contentEditable: true },
+    description: { type: "textarea", label: "Card Description", contentEditable: true },
     padding: { type: "number", label: "Padding (px)", min: 0, max: 64 },
     variant: {
       type: "select",

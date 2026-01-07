@@ -3,8 +3,8 @@ import { Props } from "./types";
 
 export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
   fields: {
-    title: { type: "text", label: "Section Title" },
-    subtitle: { type: "textarea", label: "Section Subtitle" },
+    title: { type: "text", label: "Section Title", contentEditable: true },
+    subtitle: { type: "textarea", label: "Section Subtitle", contentEditable: true },
     backgroundColor: {
       type: "select",
       label: "Background Color",

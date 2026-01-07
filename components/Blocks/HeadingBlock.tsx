@@ -3,7 +3,7 @@ import { Props } from "./types";
 
 export const HeadingBlock: ComponentConfig<Props["HeadingBlock"]> = {
   fields: {
-    title: { type: "text", label: "Title Text" },
+    title: { type: "text", label: "Title Text", contentEditable: true },
     level: {
       type: "select",
       label: "Heading Level",

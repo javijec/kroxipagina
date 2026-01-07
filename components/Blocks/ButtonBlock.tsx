@@ -3,7 +3,7 @@ import { Props } from "./types";
 
 export const ButtonBlock: ComponentConfig<Props["ButtonBlock"]> = {
   fields: {
-    text: { type: "text", label: "Button Text" },
+    text: { type: "text", label: "Button Text", contentEditable: true },
     variant: {
       type: "select",
       label: "Button Style",
@@ -71,9 +71,8 @@ export const ButtonBlock: ComponentConfig<Props["ButtonBlock"]> = {
           href={link}
           target={target}
           rel="noopener noreferrer"
-          className={`inline-block rounded-lg font-semibold transition-colors text-center ${sizeClass} ${variantClass} ${
-            isFullWidth ? "block w-full" : ""
-          }`}
+          className={`inline-block rounded-lg font-semibold transition-colors text-center ${sizeClass} ${variantClass} ${isFullWidth ? "block w-full" : ""
+            }`}
         >
           {text}
         </a>

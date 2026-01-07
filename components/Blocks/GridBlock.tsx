@@ -36,13 +36,36 @@ export const GridBlock: ComponentConfig<Props["GridBlock"]> = {
   },
   render: ({ columns, gap, responsive }) => {
     const isResponsive = responsive === "true";
+
+    const columnsMap: Record<number, string> = {
+      1: "grid-cols-1",
+      2: "grid-cols-2",
+      3: "grid-cols-3",
+      4: "grid-cols-4",
+      5: "grid-cols-5",
+      6: "grid-cols-6",
+    };
+
+    const lgColumnsMap: Record<number, string> = {
+      1: "lg:grid-cols-1",
+      2: "lg:grid-cols-2",
+      3: "lg:grid-cols-3",
+      4: "lg:grid-cols-4",
+      5: "lg:grid-cols-5",
+      6: "lg:grid-cols-6",
+    };
+
     const gridClass = isResponsive
-      ? `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${columns} ${gapOptions[gap]}`
-      : `grid grid-cols-${columns} ${gapOptions[gap]}`;
+      ? `grid grid-cols-1 md:grid-cols-2 ${lgColumnsMap[columns]} ${gapOptions[gap]}`
+      : `grid ${columnsMap[columns]} ${gapOptions[gap]}`;
 
     return (
-      <div className={`p-4 ${gridClass}`}>
-        <DropZone zone="grid-content" />
+      <div className="p-4">
+        <DropZone
+          zone="grid-content"
+          className={gridClass}
+          style={{ display: "grid" }}
+        />
       </div>
     );
   },
