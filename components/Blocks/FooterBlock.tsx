@@ -1,5 +1,6 @@
 import { ComponentConfig } from "@measured/puck";
 import { Props } from "./types";
+import Image from "next/image";
 
 export const FooterBlock: ComponentConfig<Props["FooterBlock"]> = {
     fields: {
@@ -67,12 +68,18 @@ export const FooterBlock: ComponentConfig<Props["FooterBlock"]> = {
                                 href={link.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="transition-transform hover:scale-110"
+                                className="transition-transform hover:scale-110 relative w-10 h-10"
                             >
-                                <img
+                                <Image
                                     src={link.icon}
                                     alt="Social Icon"
-                                    className="w-10 h-10 object-contain rounded-lg" // Added rounded-lg slightly for nicer look on square icons
+                                    width={40}
+                                    height={40}
+                                    className="object-contain rounded-lg"
+                                    unoptimized={
+                                        !link.icon.startsWith("https://cdn-icons-png.flaticon.com") &&
+                                        !link.icon.startsWith("/")
+                                    }
                                 />
                             </a>
                         ))}

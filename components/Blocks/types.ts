@@ -1,10 +1,5 @@
 export type Props = {
-  HeadingBlock: {
-    title: string;
-    level: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-    alignment: "left" | "center" | "right";
-    textColor: string;
-  };
+
   GridBlock: {
     columns: number;
     gap: "none" | "small" | "medium" | "large";
