@@ -10,9 +10,11 @@ import { SpacerBlock } from "./components/Blocks/SpacerBlock";
 import { ImageBlock } from "./components/Blocks/ImageBlock";
 import { TextBlock } from "./components/Blocks/TextBlock";
 import { DividerBlock } from "./components/Blocks/DividerBlock";
+import { NavbarBlock } from "./components/Blocks/NavbarBlock";
 
 export const config: Config<Props> = {
   components: {
+    NavbarBlock,
     HeadingBlock,
     GridBlock,
     CardBlock,

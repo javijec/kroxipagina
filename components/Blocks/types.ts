@@ -66,4 +66,11 @@ export type Props = {
     thickness: number;
     spacing: "small" | "medium" | "large";
   };
+  NavbarBlock: {
+    logoText: string;
+    links: { label: string; href: string }[];
+    backgroundColor: string;
+    textColor: string;
+    fixed: "true" | "false";
+  };
 };
