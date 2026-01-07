@@ -35,6 +35,7 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
         { label: "Sans-Serif", value: "sans" },
         { label: "Serif", value: "serif" },
         { label: "Monospace", value: "mono" },
+        { label: "Fontin", value: "fontin" },
       ],
     },
     fontSize: {
@@ -100,6 +101,7 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
       sans: "font-sans",
       serif: "font-serif",
       mono: "font-mono",
+      fontin: "font-[Fontin]",
     }[fontFamily || "sans"];
 
     const isCustom = colorMode === "custom";

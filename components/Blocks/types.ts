@@ -56,7 +56,7 @@ export type Props = {
     colorMode?: "preset" | "custom";
     textColor: string;
     customColor?: string;
-    fontFamily?: "sans" | "serif" | "mono";
+    fontFamily?: "sans" | "serif" | "mono" | "fontin";
     fontSize: "small" | "medium" | "large";
     lineHeight: "tight" | "normal" | "relaxed";
   };
