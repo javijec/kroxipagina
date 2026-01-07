@@ -69,7 +69,7 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
     title: "Welcome to Our Site",
     subtitle: "Build amazing content with our visual editor",
     backgroundType: "image",
-    backgroundImage: "",
+    backgroundImage: "https://lh3.googleusercontent.com/sitesv/AAzXCkc_NWaUif8F83QeGme_bB0SsfVFkeeuTRO9dLoJCI0cmBizzYQcoCABPDmIGEvSXalHjyh1HczcgTMy_37H6kaoPrdtlNvnioSk8dH78PBiVOUeIFemLNDFXgoMhDNvYKvIrx_ktmRjo0bhZr9wm3nKbUZhEwxXyq1roRBsjS3jZF6K7r4oIJjAaIU=w16383",
     backgroundColor: "bg-gray-900",
     height: "medium",
     overlayOpacity: 50,
