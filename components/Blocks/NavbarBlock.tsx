@@ -1,8 +1,10 @@
 import { ComponentConfig } from "@measured/puck";
 import { Props } from "./types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const NavContent = ({
+    logoImage,
     logoText,
     links,
     backgroundColor,
@@ -10,6 +12,11 @@ const NavContent = ({
     fixed,
 }: Props["NavbarBlock"]) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [imageError, setImageError] = useState(false);
+
+    useEffect(() => {
+        setImageError(false);
+    }, [logoImage]);
 
     return (
         <>
@@ -20,7 +27,24 @@ const NavContent = ({
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
-                        <div className="flex-shrink-0 font-bold text-xl">{logoText}</div>
+                        <div className="flex-shrink-0 font-bold text-xl flex items-center gap-3">
+                            {logoImage && !imageError ? (
+                                <Image
+                                    src={logoImage}
+                                    alt="Logo"
+                                    width={50}
+                                    height={50}
+                                    className="w-12 h-12 object-contain"
+                                    unoptimized
+                                    onError={() => setImageError(true)}
+                                />
+                            ) : logoImage && imageError ? (
+                                <div className="flex items-center justify-center w-12 h-12 bg-red-100 text-red-600 rounded text-xs text-center border border-red-300" title="Invalid Image URL">
+                                    Link Roto
+                                </div>
+                            ) : null}
+                            <span className={logoImage ? "hidden md:block" : ""}>{logoText}</span>
+                        </div>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
                                 {links.map((link, i) => (
@@ -101,6 +125,7 @@ const NavContent = ({
 
 export const NavbarBlock: ComponentConfig<Props["NavbarBlock"]> = {
     fields: {
+        logoImage: { type: "text", label: "Logo Image URL" },
         logoText: { type: "text", label: "Logo Text", contentEditable: true },
         links: {
             type: "array",
@@ -138,14 +163,15 @@ export const NavbarBlock: ComponentConfig<Props["NavbarBlock"]> = {
         },
     },
     defaultProps: {
-        logoText: "MyBrand",
+        logoImage: "https://lh3.googleusercontent.com/sitesv/AAzXCkfDKN_YfVsqTUtn7ppVv_qATLh8EWX-AZJfZr-lKL3JgrvX7ZScb-WCns4RvTvdPqwETLtDBQLDUiaaq5fOkOf-eZcYXpXB9EcGsQ6I3W2RXvAxfz6Fnu8zL2ecDb9Wg9d7uBWgOGL_AiSk8M7zPd1Y9WABQ-9BArxNZHiYbgfeybZbvPwuz4Hy=w16383",
+        logoText: "Kroximatuz",
         links: [
             { label: "Home", href: "/" },
-            { label: "About", href: "/about" },
-            { label: "Contact", href: "/contact" },
+            { label: "Path of Exile 1", href: "/poe1" },
+            { label: "Path of Exile 2", href: "/poe2" },
         ],
-        backgroundColor: "bg-white",
-        textColor: "text-gray-900",
+        backgroundColor: "bg-black",
+        textColor: "text-white",
         fixed: "false",
     },
     render: (props) => <NavContent {...props} />,

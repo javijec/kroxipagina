@@ -68,6 +68,7 @@ export type Props = {
   };
   NavbarBlock: {
     logoText: string;
+    logoImage?: string;
     links: { label: string; href: string }[];
     backgroundColor: string;
     textColor: string;
