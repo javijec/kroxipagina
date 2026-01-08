@@ -15,18 +15,18 @@ import { FooterBlock } from "./components/Blocks/FooterBlock";
 
 export const config: Config<Props> = {
   components: {
-    FooterBlock,
-    YouTubeBlock,
     NavbarBlock,
-    GridBlock,
-    CardBlock,
     HeroBlock,
     SectionBlock,
-    ButtonBlock,
-    SpacerBlock,
+    GridBlock,
     ImageBlock,
     TextBlock,
+    YouTubeBlock,
+    CardBlock,
+    ButtonBlock,
+    SpacerBlock,
     DividerBlock,
+    FooterBlock,
   },
 };
 
