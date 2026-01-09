@@ -51,7 +51,7 @@ const getTrustedOrigins = (): string[] => {
 };
 
 export const auth = betterAuth({
-  database: adapterWithCache as any,
+  database: baseAdapter as any,
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
