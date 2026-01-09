@@ -1,5 +1,5 @@
 import { Data } from "@measured/puck";
-import clientPromise from "./mongodb.ts";
+import clientPromise from "./mongodb";
 
 export const getPage = async (path: string) => {
   const client = await clientPromise;

@@ -23,8 +23,8 @@ export default function SetupPage() {
       } else {
         setSession(data.data);
         // Pre-fill with existing nickname or email
-        if (data.data.user.nickname) {
-          setNickname(data.data.user.nickname);
+        if (data.data.user.name) {
+          setNickname(data.data.user.name);
           setIsEditing(false);
         } else {
           setNickname(data.data.user.email?.split("@")[0] || "");
@@ -48,7 +48,7 @@ export default function SetupPage() {
       // Update user with nickname
       await authClient.updateUser(
         {
-          nickname: nickname.trim(),
+          name: nickname.trim(),
         },
         {
           onSuccess: () => {

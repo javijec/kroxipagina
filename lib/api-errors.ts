@@ -52,7 +52,7 @@ export function handleApiError(error: unknown) {
       {
         error: error.message,
         code: error.code,
-        ...(error.errors && { details: error.errors }),
+        ...(error instanceof ValidationError && error.errors && { details: error.errors }),
       },
       { status: error.statusCode }
     );

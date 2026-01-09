@@ -16,7 +16,7 @@ export default function SignInPage() {
     setError(null);
     try {
       await authClient.signIn.social(
-        { provider: "google", redirect: "/auth/setup" },
+        { provider: "google" },
         {
           onError: (ctx) => {
             setError(ctx.error?.message || "Error signing in with Google");
