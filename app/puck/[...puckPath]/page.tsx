@@ -14,7 +14,7 @@
 import "@measured/puck/puck.css";
 import { Client } from "./client";
 import { Metadata } from "next";
-import { getPage } from "../../../lib/get-page";
+import { getPage } from "../../../lib/get-page.ts";
 
 export async function generateMetadata({
   params,

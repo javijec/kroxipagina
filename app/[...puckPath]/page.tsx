@@ -13,7 +13,7 @@
 import { Client } from "./client";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { getPage } from "../../lib/get-page";
+import { getPage } from "../../lib/get-page.ts";
 
 export async function generateMetadata({
   params,

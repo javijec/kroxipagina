@@ -17,16 +17,27 @@ if (process.env.NODE_ENV === "development") {
 
   if (!globalWithMongo._mongoClientPromise) {
     client = new MongoClient(uri, options);
-    globalWithMongo._mongoClientPromise = client.connect().then((client) => {
-      console.log("\n✅ Conectado a MongoDB");
-      console.log("📂 Base de datos:", client.db().databaseName, "\n");
-      return client;
-    });
+    globalWithMongo._mongoClientPromise = client
+      .connect()
+      .then((client) => {
+        console.log("\n✅ Conectado a MongoDB");
+        console.log("📂 Base de datos:", client.db().databaseName, "\n");
+        return client;
+      })
+      .catch((err) => {
+        console.error("❌ Error conectando a MongoDB:", err);
+        throw err;
+      });
   }
   clientPromise = globalWithMongo._mongoClientPromise;
 } else {
   client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+  clientPromise = client
+    .connect()
+    .catch((err) => {
+      console.error("❌ Error conectando a MongoDB:", err);
+      throw err;
+    });
 }
 
 export default clientPromise;

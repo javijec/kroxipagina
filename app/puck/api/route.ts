@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import clientPromise from "../../../lib/mongodb";
+import clientPromise from "../../../lib/mongodb.ts";
 
 export async function POST(request: Request) {
   const payload = await request.json();
