@@ -3,47 +3,40 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { authClient } from "lib/auth-client";
+import { useSession } from "lib/auth-client";
 
 export function EditButton() {
   const pathname = usePathname();
   const [canEdit, setCanEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const sessionRes = useSession();
+  const session = (sessionRes as any)?.data ?? null;
+  const sessionLoading = (sessionRes as any)?.status === "loading" || (sessionRes as any)?.isLoading === true || sessionRes === undefined;
+
   useEffect(() => {
-    const checkPermission = async () => {
-      try {
-        const session = await authClient.getSession();
-        
-        if (!session.data?.user) {
-          setCanEdit(false);
-          return;
-        }
+    const user = session?.user;
+    if (!user) {
+      setCanEdit(false);
+      setIsLoading(false);
+      return;
+    }
 
-        // Check if user is admin or editor
-        const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
-          .split(",")
-          .map((e) => e.trim())
-          .filter(Boolean);
-        const editorEmails = (process.env.NEXT_PUBLIC_ALLOWED_EDITORS || "")
-          .split(",")
-          .map((e) => e.trim())
-          .filter(Boolean);
+    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
+      .split(",")
+      .map((e) => e.trim())
+      .filter(Boolean);
+    const editorEmails = (process.env.NEXT_PUBLIC_ALLOWED_EDITORS || "")
+      .split(",")
+      .map((e) => e.trim())
+      .filter(Boolean);
 
-        const isEditor =
-          adminEmails.includes(session.data.user.email) ||
-          editorEmails.includes(session.data.user.email);
+    const isEditor =
+      adminEmails.includes(user.email) || editorEmails.includes(user.email);
 
-        setCanEdit(isEditor);
-      } catch (err) {
-        setCanEdit(false);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkPermission();
-  }, []);
+    setCanEdit(isEditor);
+    setIsLoading(false);
+  }, [sessionRes]);
 
   // Don't show on edit pages or if user can't edit
   if (isLoading || !canEdit || pathname.endsWith("/edit") || pathname.startsWith("/auth")) {
