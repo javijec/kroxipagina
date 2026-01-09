@@ -1,6 +1,7 @@
 import { DropZone, ComponentConfig } from "@measured/puck";
 import { Props } from "./types";
 import { shadowOptions, borderRadiusOptions } from "./options";
+import Image from "next/image";
 
 export const CardBlock: ComponentConfig<Props["CardBlock"]> = {
   fields: {
@@ -47,6 +48,36 @@ export const CardBlock: ComponentConfig<Props["CardBlock"]> = {
         { label: "Large", value: "large" },
       ],
     },
+    headerImage: {
+      type: "text",
+      label: "Header Image URL (optional)",
+    },
+    titleColor: {
+      type: "select",
+      label: "Title Color",
+      options: [
+        { label: "Gray 900", value: "text-gray-900" },
+        { label: "Blue 600", value: "text-blue-600" },
+        { label: "Gray 700", value: "text-gray-700" },
+      ],
+    },
+    descriptionColor: {
+      type: "select",
+      label: "Description Color",
+      options: [
+        { label: "Gray 600", value: "text-gray-600" },
+        { label: "Gray 500", value: "text-gray-500" },
+      ],
+    },
+    hoverEffect: {
+      type: "select",
+      label: "Hover Effect",
+      options: [
+        { label: "None", value: "none" },
+        { label: "Lift", value: "lift" },
+        { label: "Glow", value: "glow" },
+      ],
+    },
   },
   defaultProps: {
     title: "Card",
@@ -56,6 +87,10 @@ export const CardBlock: ComponentConfig<Props["CardBlock"]> = {
     bgColor: "bg-white",
     shadow: "medium",
     borderRadius: "medium",
+    headerImage: "",
+    titleColor: "text-gray-900",
+    descriptionColor: "text-gray-600",
+    hoverEffect: "lift",
   },
   render: ({
     title,
@@ -65,14 +100,38 @@ export const CardBlock: ComponentConfig<Props["CardBlock"]> = {
     bgColor,
     shadow,
     borderRadius,
-  }) => (
-    <div
-      style={{ padding }}
-      className={`${variant} ${bgColor} ${shadowOptions[shadow]} ${borderRadiusOptions[borderRadius]}`}
-    >
-      <h3 className="text-xl font-semibold mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-      <DropZone zone="card-content" />
-    </div>
-  ),
+    headerImage,
+    titleColor = "text-gray-900",
+    descriptionColor = "text-gray-600",
+    hoverEffect = "none",
+  }) => {
+    const hoverClass = {
+      none: "",
+      lift: "hover:shadow-xl hover:-translate-y-1 transition-all duration-200",
+      glow: "hover:shadow-xl hover:shadow-blue-200 transition-shadow duration-200",
+    }[hoverEffect];
+
+    return (
+      <div
+        className={`${variant} ${bgColor} ${shadowOptions[shadow]} ${borderRadiusOptions[borderRadius]} overflow-hidden ${hoverClass}`}
+      >
+        {headerImage && (
+          <div className="relative w-full h-48 overflow-hidden">
+            <Image
+              src={headerImage}
+              alt={title}
+              fill
+              className="object-cover"
+              unoptimized
+            />
+          </div>
+        )}
+        <div style={{ padding }}>
+          <h3 className={`text-xl font-bold mb-2 ${titleColor}`}>{title}</h3>
+          <p className={`${descriptionColor} mb-4`}>{description}</p>
+          <DropZone zone="card-content" />
+        </div>
+      </div>
+    );
+  },
 };

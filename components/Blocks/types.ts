@@ -4,6 +4,8 @@ export type Props = {
     columns: number;
     gap: "none" | "small" | "medium" | "large";
     responsive: "true" | "false";
+    itemAlignment?: "start" | "center" | "end" | "stretch";
+    minColWidth?: string;
   };
   CardBlock: {
     title: string;
@@ -13,6 +15,10 @@ export type Props = {
     bgColor: string;
     shadow: "none" | "small" | "medium" | "large";
     borderRadius: "none" | "small" | "medium" | "large";
+    headerImage?: string;
+    titleColor?: string;
+    descriptionColor?: string;
+    hoverEffect?: "none" | "lift" | "glow";
   };
   HeroBlock: {
     title: string;
@@ -22,6 +28,10 @@ export type Props = {
     backgroundColor: string;
     height: "small" | "medium" | "large" | "fullscreen";
     overlayOpacity: number;
+    ctaText?: string;
+    ctaLink?: string;
+    ctaTarget?: "_self" | "_blank";
+    contentAlignment?: "left" | "center" | "right";
   };
   SectionBlock: {
     title: string;
@@ -31,14 +41,21 @@ export type Props = {
     backgroundColor: string;
     padding: "none" | "small" | "medium" | "large";
     contentWidth: "narrow" | "medium" | "wide" | "full";
+    overlayColor?: string;
+    overlayOpacity?: number;
+    titleTextColor?: string;
+    subtitleTextColor?: string;
   };
   ButtonBlock: {
     text: string;
-    variant: "primary" | "secondary" | "outline" | "ghost";
+    variant: "primary" | "secondary" | "outline" | "ghost" | "danger";
     size: "small" | "medium" | "large";
     link: string;
     target: "_self" | "_blank";
     fullWidth: "true" | "false";
+    alignment?: "left" | "center" | "right";
+    icon?: "none" | "arrow-right" | "arrow-left" | "plus" | "check";
+    iconPosition?: "left" | "right";
   };
   SpacerBlock: {
     height: number;
@@ -50,6 +67,9 @@ export type Props = {
     width: string;
     aspectRatio: "original" | "square" | "video" | "portrait";
     borderRadius: "none" | "small" | "medium" | "large";
+    caption?: string;
+    alignment?: "left" | "center" | "right";
+    lazy?: boolean;
   };
   TextBlock: {
     content: string;
@@ -57,8 +77,12 @@ export type Props = {
     textColor: string;
     customColor?: string;
     fontFamily?: "sans" | "serif" | "mono" | "fontin";
-    fontSize: "small" | "medium" | "large";
+    fontSize: "small" | "medium" | "large" | "xl";
     lineHeight: "tight" | "normal" | "relaxed";
+    textAlign?: "left" | "center" | "right" | "justify";
+    padding?: "none" | "small" | "medium" | "large";
+    bold?: boolean;
+    italic?: boolean;
   };
   DividerBlock: {
     style: "solid" | "dashed" | "dotted";

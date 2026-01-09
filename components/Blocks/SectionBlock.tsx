@@ -48,6 +48,41 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
         { label: "Full Width", value: "full" },
       ],
     },
+    overlayColor: {
+      type: "select",
+      label: "Overlay Color (for images)",
+      options: [
+        { label: "None", value: "transparent" },
+        { label: "Black", value: "bg-black" },
+        { label: "Dark Gray", value: "bg-gray-900" },
+        { label: "Blue", value: "bg-blue-600" },
+      ],
+    },
+    overlayOpacity: {
+      type: "number",
+      label: "Overlay Opacity (0-100)",
+      min: 0,
+      max: 100,
+    },
+    titleTextColor: {
+      type: "select",
+      label: "Title Text Color",
+      options: [
+        { label: "Gray 900", value: "text-gray-900" },
+        { label: "Gray 700", value: "text-gray-700" },
+        { label: "White", value: "text-white" },
+        { label: "Blue 600", value: "text-blue-600" },
+      ],
+    },
+    subtitleTextColor: {
+      type: "select",
+      label: "Subtitle Text Color",
+      options: [
+        { label: "Gray 600", value: "text-gray-600" },
+        { label: "Gray 500", value: "text-gray-500" },
+        { label: "Gray 100", value: "text-gray-100" },
+      ],
+    },
   },
   defaultProps: {
     title: "Section Title",
@@ -57,6 +92,10 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
     backgroundColor: "bg-white",
     padding: "medium",
     contentWidth: "wide",
+    overlayColor: "transparent",
+    overlayOpacity: 40,
+    titleTextColor: "text-gray-900",
+    subtitleTextColor: "text-gray-600",
   },
   resolveFields: (data, { fields }) => {
     const { backgroundType = "color" } = data.props || {};
@@ -71,9 +110,29 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
         ...fields.backgroundImage,
         visible: backgroundType === "image",
       },
+      overlayColor: {
+        ...fields.overlayColor,
+        visible: backgroundType === "image",
+      },
+      overlayOpacity: {
+        ...fields.overlayOpacity,
+        visible: backgroundType === "image",
+      },
     } as any;
   },
-  render: ({ title, subtitle, backgroundType, backgroundImage, backgroundColor, padding, contentWidth }) => {
+  render: ({
+    title,
+    subtitle,
+    backgroundType,
+    backgroundImage,
+    backgroundColor,
+    padding,
+    contentWidth,
+    overlayColor = "transparent",
+    overlayOpacity = 40,
+    titleTextColor = "text-gray-900",
+    subtitleTextColor = "text-gray-600",
+  }) => {
     const paddingOptions: Record<string, string> = {
       none: "py-0",
       small: "py-8",
@@ -90,27 +149,48 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
     const isImage = backgroundType === "image";
     const bgStyle = isImage && backgroundImage
       ? {
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }
       : {};
 
     const bgClass = !isImage ? backgroundColor : "relative";
-    // For image backgrounds, we might want a default text color or overlay, but sticking to basics for now as requested.
-    // Adding 'relative' to ensure z-index works if we added an overlay later.
+    const hasOverlay = isImage && overlayColor !== "transparent";
 
     return (
       <section
         className={`${bgClass} ${paddingOptions[padding]}`}
         style={bgStyle}
       >
-        <div className={`mx-auto px-4 ${widthOptions[contentWidth]}`}>
+        {hasOverlay && (
+          <div
+            className={`absolute inset-0 ${overlayColor}`}
+            style={{ opacity: overlayOpacity / 100 }}
+            aria-hidden="true"
+          />
+        )}
+        <div className={`mx-auto px-4 ${widthOptions[contentWidth]} ${isImage ? "relative z-10" : ""}`}>
           {(title || subtitle) && (
-            <div className={`text-center mb-12 ${isImage ? "text-white drop-shadow-md" : ""}`}>
-              {/* Added text-white shadow for readability on images */}
-              {title && <h2 className="text-3xl font-bold mb-4">{title}</h2>}
-              {subtitle && <p className={`text-lg ${isImage ? "text-gray-100" : "text-gray-600"}`}>{subtitle}</p>}
+            <div className="text-center mb-12">
+              {title && (
+                <h2
+                  className={`text-3xl md:text-4xl font-bold mb-4 ${titleTextColor} ${
+                    isImage ? "drop-shadow-lg" : ""
+                  }`}
+                >
+                  {title}
+                </h2>
+              )}
+              {subtitle && (
+                <p
+                  className={`text-lg md:text-xl ${subtitleTextColor} ${
+                    isImage ? "drop-shadow-md" : ""
+                  }`}
+                >
+                  {subtitle}
+                </p>
+              )}
             </div>
           )}
           <DropZone zone="section-content" />

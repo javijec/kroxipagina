@@ -42,10 +42,10 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
       type: "select",
       label: "Font Size",
       options: [
-        { label: "Small", value: "small" },
-        { label: "Medium", value: "medium" },
-        { label: "Large", value: "large" },
-        { label: "Extra Large", value: "xl" },
+        { label: "Small (14px)", value: "small" },
+        { label: "Medium (16px)", value: "medium" },
+        { label: "Large (18px)", value: "large" },
+        { label: "Extra Large (20px)", value: "xl" },
       ],
     },
     lineHeight: {
@@ -55,6 +55,42 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
         { label: "Tight", value: "tight" },
         { label: "Normal", value: "normal" },
         { label: "Relaxed", value: "relaxed" },
+      ],
+    },
+    textAlign: {
+      type: "radio",
+      label: "Text Alignment",
+      options: [
+        { label: "Left", value: "left" },
+        { label: "Center", value: "center" },
+        { label: "Right", value: "right" },
+        { label: "Justify", value: "justify" },
+      ],
+    },
+    padding: {
+      type: "select",
+      label: "Padding",
+      options: [
+        { label: "None", value: "none" },
+        { label: "Small", value: "small" },
+        { label: "Medium", value: "medium" },
+        { label: "Large", value: "large" },
+      ],
+    },
+    bold: {
+      type: "radio",
+      label: "Bold Text",
+      options: [
+        { label: "Yes", value: true },
+        { label: "No", value: false },
+      ],
+    },
+    italic: {
+      type: "radio",
+      label: "Italic Text",
+      options: [
+        { label: "Yes", value: true },
+        { label: "No", value: false },
       ],
     },
   },
@@ -67,6 +103,10 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
     fontFamily: "sans",
     fontSize: "medium",
     lineHeight: "normal",
+    textAlign: "left",
+    padding: "medium",
+    bold: false,
+    italic: false,
   },
   resolveFields: (data, { fields }) => {
     const { colorMode = "preset" } = data.props || {};
@@ -83,7 +123,19 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
       },
     } as any;
   },
-  render: ({ content, colorMode, textColor, customColor, fontFamily, fontSize, lineHeight }) => {
+  render: ({
+    content,
+    colorMode,
+    textColor,
+    customColor,
+    fontFamily,
+    fontSize,
+    lineHeight,
+    textAlign = "left",
+    padding = "medium",
+    bold = false,
+    italic = false,
+  }) => {
     const fontSizeClass = {
       small: "text-sm",
       medium: "text-base",
@@ -104,12 +156,28 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
       fontin: "font-[Fontin]",
     }[fontFamily || "sans"];
 
+    const textAlignClass = {
+      left: "text-left",
+      center: "text-center",
+      right: "text-right",
+      justify: "text-justify",
+    }[textAlign];
+
+    const paddingClass = {
+      none: "p-0",
+      small: "p-4",
+      medium: "p-6",
+      large: "p-8",
+    }[padding];
+
     const isCustom = colorMode === "custom";
 
     return (
-      <div className="p-4">
+      <div className={paddingClass}>
         <p
-          className={`${!isCustom ? textColor : ""} ${fontSizeClass} ${lineHeightClass} ${fontClass}`}
+          className={`${!isCustom ? textColor : ""} ${fontSizeClass} ${lineHeightClass} ${fontClass} ${textAlignClass} ${
+            bold ? "font-bold" : ""
+          } ${italic ? "italic" : ""}`}
           style={isCustom ? { color: customColor } : {}}
         >
           {content}

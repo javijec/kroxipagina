@@ -6,7 +6,7 @@ export const GridBlock: ComponentConfig<Props["GridBlock"]> = {
   fields: {
     columns: {
       type: "number",
-      label: "Number of Columns",
+      label: "Number of Columns (desktop)",
       min: 1,
       max: 6,
     },
@@ -28,13 +28,35 @@ export const GridBlock: ComponentConfig<Props["GridBlock"]> = {
         { label: "Disabled", value: "false" },
       ],
     },
+    itemAlignment: {
+      type: "select",
+      label: "Items Alignment",
+      options: [
+        { label: "Start", value: "start" },
+        { label: "Center", value: "center" },
+        { label: "End", value: "end" },
+        { label: "Stretch", value: "stretch" },
+      ],
+    },
+    minColWidth: {
+      type: "text",
+      label: "Minimum Column Width (CSS, e.g., '200px')",
+    },
   },
   defaultProps: {
     columns: 3,
     gap: "medium",
     responsive: "true",
+    itemAlignment: "start",
+    minColWidth: "200px",
   },
-  render: ({ columns, gap, responsive }) => {
+  render: ({
+    columns,
+    gap,
+    responsive,
+    itemAlignment = "start",
+    minColWidth,
+  }) => {
     const isResponsive = responsive === "true";
 
     const columnsMap: Record<number, string> = {
@@ -55,16 +77,26 @@ export const GridBlock: ComponentConfig<Props["GridBlock"]> = {
       6: "lg:grid-cols-6",
     };
 
+    const alignmentClass = {
+      start: "items-start",
+      center: "items-center",
+      end: "items-end",
+      stretch: "items-stretch",
+    }[itemAlignment];
+
     const gridClass = isResponsive
-      ? `grid grid-cols-1 md:grid-cols-2 ${lgColumnsMap[columns]} ${gapOptions[gap]}`
-      : `grid ${columnsMap[columns]} ${gapOptions[gap]}`;
+      ? `grid grid-cols-1 md:grid-cols-2 ${lgColumnsMap[columns]} ${gapOptions[gap]} ${alignmentClass}`
+      : `grid ${columnsMap[columns]} ${gapOptions[gap]} ${alignmentClass}`;
 
     return (
       <div className="p-4">
         <DropZone
           zone="grid-content"
           className={gridClass}
-          style={{ display: "grid" }}
+          style={{
+            display: "grid",
+            ...(minColWidth && !isResponsive && { gridAutoColumns: `minmax(${minColWidth}, 1fr)` }),
+          }}
         />
       </div>
     );

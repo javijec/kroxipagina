@@ -1,6 +1,17 @@
 import { ComponentConfig } from "@measured/puck";
 import { Props } from "./types";
 
+// Validate image URL
+const isValidImageUrl = (url: string): boolean => {
+  if (!url) return false;
+  try {
+    new URL(url);
+    return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url) || url.includes("googleusercontent") || url.includes("imgur");
+  } catch {
+    return false;
+  }
+};
+
 export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
   fields: {
     title: { type: "text", label: "Hero Title", contentEditable: true },
@@ -45,9 +56,34 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
       min: 0,
       max: 100,
     },
+    contentAlignment: {
+      type: "radio",
+      label: "Content Alignment",
+      options: [
+        { label: "Left", value: "left" },
+        { label: "Center", value: "center" },
+        { label: "Right", value: "right" },
+      ],
+    },
+    ctaText: {
+      type: "text",
+      label: "CTA Button Text (Optional)",
+    },
+    ctaLink: {
+      type: "text",
+      label: "CTA Button Link",
+    },
+    ctaTarget: {
+      type: "radio",
+      label: "CTA Open in",
+      options: [
+        { label: "Same Tab", value: "_self" },
+        { label: "New Tab", value: "_blank" },
+      ],
+    },
   },
   resolveFields: (data, { fields }) => {
-    const { backgroundType = "image" } = data.props || {};
+    const { backgroundType = "image", ctaText = "" } = data.props || {};
 
     return {
       ...fields,
@@ -63,6 +99,14 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
         ...fields.backgroundColor,
         visible: backgroundType === "color",
       },
+      ctaLink: {
+        ...fields.ctaLink,
+        visible: !!ctaText,
+      },
+      ctaTarget: {
+        ...fields.ctaTarget,
+        visible: !!ctaText,
+      },
     } as any;
   },
   defaultProps: {
@@ -73,6 +117,10 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
     backgroundColor: "bg-gray-900",
     height: "medium",
     overlayOpacity: 50,
+    contentAlignment: "center",
+    ctaText: "Get Started",
+    ctaLink: "#",
+    ctaTarget: "_self",
   },
   render: ({
     title,
@@ -82,6 +130,10 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
     backgroundColor,
     height,
     overlayOpacity,
+    contentAlignment = "center",
+    ctaText,
+    ctaLink,
+    ctaTarget = "_self",
   }) => {
     const heightClass = {
       small: "h-64 md:h-80",
@@ -90,33 +142,55 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
       fullscreen: "h-screen",
     }[height];
 
+    const alignmentClass = {
+      left: "text-left",
+      center: "text-center",
+      right: "text-right",
+    }[contentAlignment];
+
     const isImage = backgroundType === "image";
+    const imageValid = isImage && isValidImageUrl(backgroundImage);
 
     return (
       <div
-        className={`relative ${heightClass} flex items-center justify-center overflow-hidden ${!isImage ? backgroundColor : ""
-          }`}
+        className={`relative ${heightClass} flex items-center justify-center overflow-hidden ${
+          !isImage ? backgroundColor : "bg-gray-900"
+        }`}
         style={
-          isImage && backgroundImage
+          imageValid
             ? {
-              backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
             : {}
         }
+        role="banner"
       >
-        {isImage && backgroundImage && (
+        {imageValid && (
           <div
             className="absolute inset-0 bg-black"
             style={{ opacity: overlayOpacity / 100 }}
+            aria-hidden="true"
           />
         )}
-        <div className="relative z-10 text-center text-white p-8 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+        <div className={`relative z-10 text-white p-8 max-w-4xl mx-auto w-full ${alignmentClass}`}>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-lg">
             {title}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90">{subtitle}</p>
+          <p className="text-lg md:text-xl lg:text-2xl mb-8 opacity-95 drop-shadow-md">
+            {subtitle}
+          </p>
+          {ctaText && ctaLink && (
+            <a
+              href={ctaLink}
+              target={ctaTarget}
+              rel={ctaTarget === "_blank" ? "noopener noreferrer" : undefined}
+              className="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 drop-shadow-md"
+            >
+              {ctaText}
+            </a>
+          )}
         </div>
       </div>
     );

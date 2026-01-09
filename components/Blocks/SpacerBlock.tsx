@@ -16,6 +16,19 @@ export const SpacerBlock: ComponentConfig<Props["SpacerBlock"]> = {
     mobileHeight: 24,
   },
   render: ({ height, mobileHeight }) => (
-    <div className="w-full" style={{ height: `${mobileHeight || height}px` }} />
+    <>
+      <div
+        className="w-full hidden md:block"
+        style={{ height: `${height}px` }}
+        role="presentation"
+        aria-hidden="true"
+      />
+      <div
+        className="w-full md:hidden"
+        style={{ height: `${mobileHeight || height}px` }}
+        role="presentation"
+        aria-hidden="true"
+      />
+    </>
   ),
 };
