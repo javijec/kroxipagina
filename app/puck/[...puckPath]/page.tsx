@@ -8,13 +8,17 @@
  * This approach enables public pages to be statically rendered whilst the /puck route can
  * remain dynamic.
  *
- * NB this route is public, and you will need to add authentication
+ * PROTECTED: Only authenticated admin/editor users can access this route
  */
 
 import "@measured/puck/puck.css";
 import { Client } from "./client";
 import { Metadata } from "next";
 import { getPage } from "../../../lib/get-page.ts";
+import { auth } from "../../../lib/auth";
+import { getUserRole } from "../../../lib/auth-middleware";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export async function generateMetadata({
   params,
@@ -36,6 +40,23 @@ export default async function Page({
 }) {
   const { puckPath = [] } = await params;
   const path = `/${puckPath.join("/")}`;
+  
+  // Verify user is authenticated and has edit permission
+  const headersList = await headers();
+  const session = await auth.api.getSession({
+    headers: headersList,
+  } as any);
+
+  if (!session?.user) {
+    redirect("/auth/signin?redirect=" + encodeURIComponent(path + "/edit"));
+  }
+
+  const role = getUserRole(session.user.email);
+  if (role === "viewer") {
+    // User is not authorized to edit
+    redirect("/");
+  }
+
   const data = await getPage(path);
 
   return <Client path={path} data={data || {}} />;
