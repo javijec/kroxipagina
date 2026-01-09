@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { MongoClient } from "mongodb";
+import clientPromise from "./mongodb";
 
 if (!process.env.MONGODB_URI) {
   throw new Error(
@@ -8,12 +8,12 @@ if (!process.env.MONGODB_URI) {
   );
 }
 
-// Create a MongoDB client and get the database instance
-const mongoClient = new MongoClient(process.env.MONGODB_URI);
-const mongoDb = mongoClient.db();
+// Reuse single connected client from lib/mongodb to avoid creating multiple connections
+const connectedClient = await clientPromise;
+const mongoDb = connectedClient.db();
 
 export const auth = betterAuth({
-  database: mongodbAdapter(mongoDb, { client: mongoClient }),
+  database: mongodbAdapter(mongoDb, { client: connectedClient }),
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
