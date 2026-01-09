@@ -96,6 +96,36 @@ export const ButtonBlock: ComponentConfig<Props["ButtonBlock"]> = {
         { label: "Right", value: "right" },
       ],
     },
+    // Typography options for button label
+    fontFamily: {
+      type: "select",
+      label: "Font Family",
+      options: [
+        { label: "Sans", value: "sans" },
+        { label: "Serif", value: "serif" },
+        { label: "Mono", value: "mono" },
+        { label: "Fontin", value: "fontin" },
+      ],
+    },
+    fontWeight: {
+      type: "select",
+      label: "Font Weight",
+      options: [
+        { label: "Thin", value: "thin" },
+        { label: "Normal", value: "normal" },
+        { label: "Medium", value: "medium" },
+        { label: "Bold", value: "bold" },
+      ],
+    },
+    textColor: {
+      type: "select",
+      label: "Text Color",
+      options: [
+        { label: "White", value: "text-white" },
+        { label: "Gray 900", value: "text-gray-900" },
+        { label: "Blue 600", value: "text-blue-600" },
+      ],
+    },
   },
   defaultProps: {
     text: "Click Me",
@@ -107,6 +137,9 @@ export const ButtonBlock: ComponentConfig<Props["ButtonBlock"]> = {
     alignment: "center",
     icon: "none",
     iconPosition: "right",
+    fontFamily: "sans",
+    fontWeight: "medium",
+    textColor: "text-white",
   },
   resolveFields: (data, { fields }) => {
     const { icon = "none" } = data.props || {};
@@ -129,6 +162,9 @@ export const ButtonBlock: ComponentConfig<Props["ButtonBlock"]> = {
     alignment = "center",
     icon = "none",
     iconPosition = "right",
+    fontFamily = "sans",
+    fontWeight = "medium",
+    textColor = "text-white",
   }) => {
     const sizeClass = {
       small: "px-4 py-2 text-sm gap-2",
@@ -164,9 +200,13 @@ export const ButtonBlock: ComponentConfig<Props["ButtonBlock"]> = {
           href={link}
           target={target}
           rel={target === "_blank" ? "noopener noreferrer" : undefined}
-          className={`inline-flex items-center rounded-lg font-semibold transition-colors text-center ${sizeClass} ${variantClass} ${
+          className={`inline-flex items-center rounded-lg transition-colors text-center ${sizeClass} ${variantClass} ${
             isFullWidth ? "w-full justify-center" : ""
-          }`}
+          } ${
+            { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[fontFamily]
+          } ${
+            { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[fontWeight]
+          } ${textColor}`}
         >
           {showIcon && iconPosition === "left" && (
             <IconSvg icon={icon} className={iconSize} />

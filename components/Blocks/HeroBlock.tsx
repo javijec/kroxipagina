@@ -16,6 +16,63 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
   fields: {
     title: { type: "text", label: "Hero Title", contentEditable: true },
     subtitle: { type: "textarea", label: "Hero Subtitle", contentEditable: true },
+    titleTextColor: {
+      type: "select",
+      label: "Title Color",
+      options: [
+        { label: "White", value: "text-white" },
+        { label: "Gray 900", value: "text-gray-900" },
+        { label: "Blue 600", value: "text-blue-600" },
+      ],
+    },
+    titleFontFamily: {
+      type: "select",
+      label: "Title Font Family",
+      options: [
+        { label: "Sans", value: "sans" },
+        { label: "Serif", value: "serif" },
+        { label: "Mono", value: "mono" },
+        { label: "Fontin", value: "fontin" },
+      ],
+    },
+    titleFontWeight: {
+      type: "select",
+      label: "Title Font Weight",
+      options: [
+        { label: "Thin", value: "thin" },
+        { label: "Normal", value: "normal" },
+        { label: "Medium", value: "medium" },
+        { label: "Bold", value: "bold" },
+      ],
+    },
+    subtitleTextColor: {
+      type: "select",
+      label: "Subtitle Color",
+      options: [
+        { label: "White", value: "text-white" },
+        { label: "Gray 700", value: "text-gray-700" },
+      ],
+    },
+    subtitleFontFamily: {
+      type: "select",
+      label: "Subtitle Font Family",
+      options: [
+        { label: "Sans", value: "sans" },
+        { label: "Serif", value: "serif" },
+        { label: "Mono", value: "mono" },
+        { label: "Fontin", value: "fontin" },
+      ],
+    },
+    subtitleFontWeight: {
+      type: "select",
+      label: "Subtitle Font Weight",
+      options: [
+        { label: "Thin", value: "thin" },
+        { label: "Normal", value: "normal" },
+        { label: "Medium", value: "medium" },
+        { label: "Bold", value: "bold" },
+      ],
+    },
     backgroundType: {
       type: "radio",
       label: "Background Type",
@@ -121,6 +178,12 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
     ctaText: "Get Started",
     ctaLink: "#",
     ctaTarget: "_self",
+    titleTextColor: "text-white",
+    titleFontFamily: "sans",
+    titleFontWeight: "bold",
+    subtitleTextColor: "text-white",
+    subtitleFontFamily: "sans",
+    subtitleFontWeight: "normal",
   },
   render: ({
     title,
@@ -134,6 +197,12 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
     ctaText,
     ctaLink,
     ctaTarget = "_self",
+    titleTextColor = "text-white",
+    titleFontFamily = "sans",
+    titleFontWeight = "bold",
+    subtitleTextColor = "text-white",
+    subtitleFontFamily = "sans",
+    subtitleFontWeight = "normal",
   }) => {
     const heightClass = {
       small: "h-64 md:h-80",
@@ -175,10 +244,18 @@ export const HeroBlock: ComponentConfig<Props["HeroBlock"]> = {
           />
         )}
         <div className={`relative z-10 text-white p-8 max-w-4xl mx-auto w-full ${alignmentClass}`}>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-lg">
+          <h1 className={`text-4xl md:text-5xl lg:text-6xl mb-6 drop-shadow-lg ${titleTextColor} ${
+            { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[titleFontFamily]
+          } ${
+            { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[titleFontWeight]
+          }`}>
             {title}
           </h1>
-          <p className="text-lg md:text-xl lg:text-2xl mb-8 opacity-95 drop-shadow-md">
+          <p className={`text-lg md:text-xl lg:text-2xl mb-8 opacity-95 drop-shadow-md ${subtitleTextColor} ${
+            { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[subtitleFontFamily]
+          } ${
+            { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[subtitleFontWeight]
+          }`}>
             {subtitle}
           </p>
           {ctaText && ctaLink && (

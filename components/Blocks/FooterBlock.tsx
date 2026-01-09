@@ -34,6 +34,26 @@ export const FooterBlock: ComponentConfig<Props["FooterBlock"]> = {
       },
       label: "Social Links",
     },
+    fontFamily: {
+      type: "select",
+      label: "Font Family",
+      options: [
+        { label: "Sans", value: "sans" },
+        { label: "Serif", value: "serif" },
+        { label: "Mono", value: "mono" },
+        { label: "Fontin", value: "fontin" },
+      ],
+    },
+    fontWeight: {
+      type: "select",
+      label: "Font Weight",
+      options: [
+        { label: "Thin", value: "thin" },
+        { label: "Normal", value: "normal" },
+        { label: "Medium", value: "medium" },
+        { label: "Bold", value: "bold" },
+      ],
+    },
   },
   defaultProps: {
     text: "Sígueme en mis redes :)",
@@ -53,16 +73,22 @@ export const FooterBlock: ComponentConfig<Props["FooterBlock"]> = {
         href: "https://discord.com",
       },
     ],
+    fontFamily: "sans",
+    fontWeight: "normal",
   },
-  render: ({ text, textColor, backgroundColor, socialLinks }) => {
+  render: ({ text, textColor, backgroundColor, socialLinks, fontFamily = "sans", fontWeight = "normal" }) => {
     return (
       <footer className={`${backgroundColor} py-12 mt-auto`}>
         <div className="max-w-6xl mx-auto px-4">
           {/* Main content */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
-            <div className={`text-lg font-semibold ${textColor}`}>
-              {text}
-            </div>
+            <div className={`text-lg ${textColor} ${
+                { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[fontFamily]
+              } ${
+                { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[fontWeight]
+              }`}>
+                {text}
+              </div>
 
             {/* Social Links */}
             {socialLinks && socialLinks.length > 0 && (

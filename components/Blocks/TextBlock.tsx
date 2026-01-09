@@ -77,12 +77,14 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
         { label: "Large", value: "large" },
       ],
     },
-    bold: {
-      type: "radio",
-      label: "Bold Text",
+    fontWeight: {
+      type: "select",
+      label: "Font Weight",
       options: [
-        { label: "Yes", value: true },
-        { label: "No", value: false },
+        { label: "Thin", value: "thin" },
+        { label: "Normal", value: "normal" },
+        { label: "Medium", value: "medium" },
+        { label: "Bold", value: "bold" },
       ],
     },
     italic: {
@@ -105,7 +107,7 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
     lineHeight: "normal",
     textAlign: "left",
     padding: "medium",
-    bold: false,
+    fontWeight: "normal",
     italic: false,
   },
   resolveFields: (data, { fields }) => {
@@ -133,7 +135,7 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
     lineHeight,
     textAlign = "left",
     padding = "medium",
-    bold = false,
+    fontWeight = "normal",
     italic = false,
   }) => {
     const fontSizeClass = {
@@ -172,11 +174,18 @@ export const TextBlock: ComponentConfig<Props["TextBlock"]> = {
 
     const isCustom = colorMode === "custom";
 
+    const weightClass = {
+      thin: "font-thin",
+      normal: "font-normal",
+      medium: "font-medium",
+      bold: "font-bold",
+    }[fontWeight || "normal"];
+
     return (
       <div className={paddingClass}>
         <p
           className={`${!isCustom ? textColor : ""} ${fontSizeClass} ${lineHeightClass} ${fontClass} ${textAlignClass} ${
-            bold ? "font-bold" : ""
+            weightClass
           } ${italic ? "italic" : ""}`}
           style={isCustom ? { color: customColor } : {}}
         >

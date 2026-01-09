@@ -91,6 +91,10 @@ export const CardBlock: ComponentConfig<Props["CardBlock"]> = {
     titleColor: "text-gray-900",
     descriptionColor: "text-gray-600",
     hoverEffect: "lift",
+    titleFontFamily: "sans",
+    titleFontWeight: "bold",
+    descriptionFontFamily: "sans",
+    descriptionFontWeight: "normal",
   },
   render: ({
     title,
@@ -103,6 +107,10 @@ export const CardBlock: ComponentConfig<Props["CardBlock"]> = {
     headerImage,
     titleColor = "text-gray-900",
     descriptionColor = "text-gray-600",
+    titleFontFamily = "sans",
+    titleFontWeight = "bold",
+    descriptionFontFamily = "sans",
+    descriptionFontWeight = "normal",
     hoverEffect = "none",
   }) => {
     const hoverClass = {
@@ -127,8 +135,16 @@ export const CardBlock: ComponentConfig<Props["CardBlock"]> = {
           </div>
         )}
         <div style={{ padding }}>
-          <h3 className={`text-xl font-bold mb-2 ${titleColor}`}>{title}</h3>
-          <p className={`${descriptionColor} mb-4`}>{description}</p>
+          <h3 className={`text-xl mb-2 ${titleColor} ${
+            { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[titleFontFamily]
+          } ${
+            { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[titleFontWeight]
+          }`}>{title}</h3>
+          <p className={`${descriptionColor} mb-4 ${
+            { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[descriptionFontFamily]
+          } ${
+            { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[descriptionFontWeight]
+          }`}>{description}</p>
           <DropZone zone="card-content" />
         </div>
       </div>

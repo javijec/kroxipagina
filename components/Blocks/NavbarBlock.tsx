@@ -14,6 +14,8 @@ const NavContent = ({
   textColor,
   fixed,
   showAuthButton = true,
+  textFontFamily = "sans",
+  textFontWeight = "normal",
 }: Props["NavbarBlock"]) => {
   const [isOpen, setIsOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -75,8 +77,12 @@ const NavContent = ({
                     <Link
                       key={i}
                       href={link.href}
-                      className={`px-3 py-2 rounded-md text-sm font-medium transition-opacity ${
-                        active ? "opacity-100 font-bold" : "opacity-80 hover:opacity-100"
+                      className={`px-3 py-2 rounded-md text-sm transition-opacity ${
+                        active ? "opacity-100" : "opacity-80 hover:opacity-100"
+                      } ${
+                        { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[textFontFamily]
+                      } ${
+                        { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[textFontWeight]
                       }`}
                       aria-current={active ? "page" : undefined}
                     >
@@ -146,8 +152,12 @@ const NavContent = ({
                   <Link
                     key={i}
                     href={link.href}
-                    className={`block px-3 py-2 rounded-md text-base font-medium transition-opacity ${
-                      active ? "opacity-100 font-bold" : "opacity-80 hover:opacity-100"
+                    className={`block px-3 py-2 rounded-md text-base transition-opacity ${
+                      active ? "opacity-100" : "opacity-80 hover:opacity-100"
+                    } ${
+                      { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[textFontFamily]
+                    } ${
+                      { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[textFontWeight]
                     }`}
                     aria-current={active ? "page" : undefined}
                   >
@@ -214,6 +224,26 @@ export const NavbarBlock: ComponentConfig<Props["NavbarBlock"]> = {
         { label: "No", value: false },
       ],
     },
+    textFontFamily: {
+      type: "select",
+      label: "Text Font Family",
+      options: [
+        { label: "Sans", value: "sans" },
+        { label: "Serif", value: "serif" },
+        { label: "Mono", value: "mono" },
+        { label: "Fontin", value: "fontin" },
+      ],
+    },
+    textFontWeight: {
+      type: "select",
+      label: "Text Font Weight",
+      options: [
+        { label: "Thin", value: "thin" },
+        { label: "Normal", value: "normal" },
+        { label: "Medium", value: "medium" },
+        { label: "Bold", value: "bold" },
+      ],
+    },
   },
   defaultProps: {
     logoImage: "",
@@ -227,6 +257,8 @@ export const NavbarBlock: ComponentConfig<Props["NavbarBlock"]> = {
     textColor: "text-white",
     fixed: "false",
     showAuthButton: true,
+    textFontFamily: "sans",
+    textFontWeight: "normal",
   },
   render: (props) => <NavContent {...props} />,
 };

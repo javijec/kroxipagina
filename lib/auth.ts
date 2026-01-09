@@ -21,11 +21,12 @@ const mongoDb = connectedClient.db();
 
 // Wrap the MongoDB adapter to add a lightweight in-memory cache for session lookups.
 // This reduces repeated DB reads for session validation (useful during frequent client checks).
-const baseAdapter = mongodbAdapter(mongoDb, { client: connectedClient });
+const baseAdapter = mongodbAdapter(mongoDb, { client: connectedClient }) as any;
 
-const adapterWithCache = {
-  ...baseAdapter,
-  async getSessionByToken(token: string) {
+// Override only the session lookup with cache but keep the same adapter instance to avoid breaking internal shape
+const originalGetSessionByToken = baseAdapter.getSessionByToken?.bind(baseAdapter);
+if (originalGetSessionByToken) {
+  baseAdapter.getSessionByToken = async (token: string) => {
     try {
       const cached = getCachedSession(token);
       if (cached) return cached;
@@ -33,20 +34,15 @@ const adapterWithCache = {
       // ignore cache errors and fallback to DB
     }
 
-    const fn = (baseAdapter as any).getSessionByToken;
-    if (typeof fn === "function") {
-      const res = await fn.call(baseAdapter, token);
-      try {
-        if (res) setCachedSession(token, res, DEFAULT_SESSION_CACHE_TTL);
-      } catch {
-        // ignore caching errors
-      }
-      return res;
+    const res = await originalGetSessionByToken(token);
+    try {
+      if (res) setCachedSession(token, res, DEFAULT_SESSION_CACHE_TTL);
+    } catch {
+      // ignore caching errors
     }
-
-    return null;
-  },
-};
+    return res;
+  };
+}
 
 // Get trusted origins from environment variable or use defaults
 const getTrustedOrigins = (): string[] => {

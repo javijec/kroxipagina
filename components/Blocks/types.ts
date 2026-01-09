@@ -18,6 +18,11 @@ export type Props = {
     headerImage?: string;
     titleColor?: string;
     descriptionColor?: string;
+    // Typography
+    titleFontFamily?: "sans" | "serif" | "mono" | "fontin";
+    titleFontWeight?: "thin" | "normal" | "medium" | "bold";
+    descriptionFontFamily?: "sans" | "serif" | "mono" | "fontin";
+    descriptionFontWeight?: "thin" | "normal" | "medium" | "bold";
     hoverEffect?: "none" | "lift" | "glow";
   };
   HeroBlock: {
@@ -32,6 +37,13 @@ export type Props = {
     ctaLink?: string;
     ctaTarget?: "_self" | "_blank";
     contentAlignment?: "left" | "center" | "right";
+    // Typography for title and subtitle
+    titleFontFamily?: "sans" | "serif" | "mono" | "fontin";
+    titleFontWeight?: "thin" | "normal" | "medium" | "bold";
+    titleTextColor?: string;
+    subtitleFontFamily?: "sans" | "serif" | "mono" | "fontin";
+    subtitleFontWeight?: "thin" | "normal" | "medium" | "bold";
+    subtitleTextColor?: string;
   };
   SectionBlock: {
     title: string;
@@ -45,6 +57,11 @@ export type Props = {
     overlayOpacity?: number;
     titleTextColor?: string;
     subtitleTextColor?: string;
+    // Typography
+    titleFontFamily?: "sans" | "serif" | "mono" | "fontin";
+    titleFontWeight?: "thin" | "normal" | "medium" | "bold";
+    subtitleFontFamily?: "sans" | "serif" | "mono" | "fontin";
+    subtitleFontWeight?: "thin" | "normal" | "medium" | "bold";
   };
   ButtonBlock: {
     text: string;
@@ -56,6 +73,10 @@ export type Props = {
     alignment?: "left" | "center" | "right";
     icon?: "none" | "arrow-right" | "arrow-left" | "plus" | "check";
     iconPosition?: "left" | "right";
+    // Typography for button
+    fontFamily?: "sans" | "serif" | "mono" | "fontin";
+    fontWeight?: "thin" | "normal" | "medium" | "bold";
+    textColor?: string;
   };
   SpacerBlock: {
     height: number;
@@ -81,7 +102,7 @@ export type Props = {
     lineHeight: "tight" | "normal" | "relaxed";
     textAlign?: "left" | "center" | "right" | "justify";
     padding?: "none" | "small" | "medium" | "large";
-    bold?: boolean;
+    fontWeight?: "thin" | "normal" | "medium" | "bold";
     italic?: boolean;
   };
   DividerBlock: {
@@ -97,10 +118,18 @@ export type Props = {
     backgroundColor: string;
     textColor: string;
     fixed: "true" | "false";
+    showAuthButton?: boolean;
+    // Typography
+    textFontFamily?: "sans" | "serif" | "mono" | "fontin";
+    textFontWeight?: "thin" | "normal" | "medium" | "bold";
   };
   YouTubeBlock: {
     videoUrl: string;
     title: string;
+    // Title typography
+    titleFontFamily?: "sans" | "serif" | "mono" | "fontin";
+    titleFontWeight?: "thin" | "normal" | "medium" | "bold";
+    titleTextColor?: string;
   };
   FooterBlock: {
     text: string;
@@ -110,5 +139,8 @@ export type Props = {
       icon: string;
       href: string;
     }[];
+    // Typography
+    fontFamily?: "sans" | "serif" | "mono" | "fontin";
+    fontWeight?: "thin" | "normal" | "medium" | "bold";
   };
 };

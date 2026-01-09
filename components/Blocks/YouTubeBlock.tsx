@@ -101,12 +101,56 @@ export const YouTubeBlock: ComponentConfig<Props["YouTubeBlock"]> = {
       type: "text",
       label: "Video Title (for accessibility)",
     },
+    titleTextColor: {
+      type: "select",
+      label: "Title Color",
+      options: [
+        { label: "White", value: "text-white" },
+        { label: "Gray 900", value: "text-gray-900" },
+      ],
+    },
+    titleFontFamily: {
+      type: "select",
+      label: "Title Font Family",
+      options: [
+        { label: "Sans", value: "sans" },
+        { label: "Serif", value: "serif" },
+        { label: "Mono", value: "mono" },
+        { label: "Fontin", value: "fontin" },
+      ],
+    },
+    titleFontWeight: {
+      type: "select",
+      label: "Title Font Weight",
+      options: [
+        { label: "Thin", value: "thin" },
+        { label: "Normal", value: "normal" },
+        { label: "Medium", value: "medium" },
+        { label: "Bold", value: "bold" },
+      ],
+    },
   },
   defaultProps: {
     videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     title: "Rick Astley - Never Gonna Give You Up",
+    titleTextColor: "text-white",
+    titleFontFamily: "sans",
+    titleFontWeight: "bold",
   },
-  render: ({ videoUrl, title }) => {
-    return <YouTubeEmbed videoUrl={videoUrl} title={title} />;
+  render: ({ videoUrl, title, titleTextColor = "text-white", titleFontFamily = "sans", titleFontWeight = "bold" }) => {
+    return (
+      <div>
+        {title && (
+          <h3 className={`text-lg mb-4 ${titleTextColor} ${
+            { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[titleFontFamily]
+          } ${
+            { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[titleFontWeight]
+          }`}>
+            {title}
+          </h3>
+        )}
+        <YouTubeEmbed videoUrl={videoUrl} title={title} />
+      </div>
+    );
   },
 };

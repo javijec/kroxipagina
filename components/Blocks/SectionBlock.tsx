@@ -96,6 +96,10 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
     overlayOpacity: 40,
     titleTextColor: "text-gray-900",
     subtitleTextColor: "text-gray-600",
+    titleFontFamily: "sans",
+    titleFontWeight: "bold",
+    subtitleFontFamily: "sans",
+    subtitleFontWeight: "normal",
   },
   resolveFields: (data, { fields }) => {
     const { backgroundType = "color" } = data.props || {};
@@ -132,6 +136,10 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
     overlayOpacity = 40,
     titleTextColor = "text-gray-900",
     subtitleTextColor = "text-gray-600",
+    titleFontFamily = "sans",
+    titleFontWeight = "bold",
+    subtitleFontFamily = "sans",
+    subtitleFontWeight = "normal",
   }) => {
     const paddingOptions: Record<string, string> = {
       none: "py-0",
@@ -175,9 +183,11 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
             <div className="text-center mb-12">
               {title && (
                 <h2
-                  className={`text-3xl md:text-4xl font-bold mb-4 ${titleTextColor} ${
-                    isImage ? "drop-shadow-lg" : ""
-                  }`}
+                  className={`text-3xl md:text-4xl mb-4 ${titleTextColor} ${
+                    { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[titleFontFamily]
+                  } ${
+                    { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[titleFontWeight]
+                  } ${isImage ? "drop-shadow-lg" : ""}`}
                 >
                   {title}
                 </h2>
@@ -185,8 +195,10 @@ export const SectionBlock: ComponentConfig<Props["SectionBlock"]> = {
               {subtitle && (
                 <p
                   className={`text-lg md:text-xl ${subtitleTextColor} ${
-                    isImage ? "drop-shadow-md" : ""
-                  }`}
+                    { sans: "font-sans", serif: "font-serif", mono: "font-mono", fontin: "font-[Fontin]" }[subtitleFontFamily]
+                  } ${
+                    { thin: "font-thin", normal: "font-normal", medium: "font-medium", bold: "font-bold" }[subtitleFontWeight]
+                  } ${isImage ? "drop-shadow-md" : ""}`}
                 >
                   {subtitle}
                 </p>
