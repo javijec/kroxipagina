@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { authClient } from "../../../lib/auth-client";
+import { authClient } from "lib/auth-client";
 
 export default function SetupPage() {
   const router = useRouter();

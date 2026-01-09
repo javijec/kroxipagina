@@ -1,4 +1,5 @@
 import "./styles.css";
+import { EditButton } from "components/EditButton";
 
 export default function RootLayout({
   children,
@@ -7,7 +8,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <EditButton />
+      </body>
     </html>
   );
 }
